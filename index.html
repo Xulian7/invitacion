@@ -19,6 +19,19 @@
       text-align: center;
       padding: 20px;
       overflow-x: hidden;
+      position: relative;
+    }
+
+    /* 🔥 MEJORA: efecto spotlight con el mouse */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,0,200,0.25), transparent 40%);
+      transition: background 0.1s ease-out;
+      z-index: 0;
     }
 
     .card {
@@ -27,9 +40,40 @@
       background: rgba(0, 0, 0, 0.75);
       border-radius: 30px;
       padding: 20px;
-      box-shadow: 0 0 40px rgba(255, 0, 180, 0.5);
+      box-shadow: 0 0 40px rgba(255, 0, 180, 0.6),
+                  0 0 70px rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(8px);
+      position: relative;
+      z-index: 3;
+
+      /* ✨ MEJORA: animación suave al entrar */
+      animation: fadeIn 0.8s ease-out;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 🔥 partículas flotantes estilo TWICE */
+    .particle {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: #ff6fff;
+      box-shadow: 0 0 10px #ff6fff;
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: fly 4s linear infinite;
+      z-index: 2;
+    }
+
+    @keyframes fly {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-120vh); opacity: 0; }
+    }
+
+    /* === TU DISEÑO ORIGINAL (SIN CAMBIOS) === */
 
     .decor {
       width: 100px;
@@ -55,10 +99,11 @@
     }
 
     h1 {
-      font-size: 26px;
-      color: #ff6fff;
-      text-shadow: 0 0 15px #ff00cc;
+      font-size: 24px;
+      color: #ffffff;
       margin-bottom: 10px;
+      line-height: 1.3;
+      text-shadow: 0 0 15px #ff6fff;
     }
 
     .date {
@@ -84,31 +129,34 @@
       padding: 10px;
     }
 
-    iframe {
-      width: 100%;
-      height: 230px;
-      border-radius: 20px;
-      border: none;
-    }
-
-    .map-card {
-      background: rgba(255, 105, 180, 0.15);
-      padding: 10px;
+    .location-card {
+      background: rgba(255, 105, 180, 0.12);
       border-radius: 25px;
-      box-shadow: 0 0 25px rgba(255, 0, 150, 0.6);
-      margin: 15px 0;
+      padding: 20px;
+      margin: 20px 0;
+      border: 2px dashed #ff6fff;
+      box-shadow: 0 0 25px rgba(255, 0, 180, 0.4);
+      animation: glowBox 3s infinite alternate;
     }
 
-    .map-btn {
-      display: block;
-      margin-top: 10px;
-      text-decoration: none;
-      background: linear-gradient(90deg, #ff2fa6, #ff6fff);
-      color: white;
-      padding: 12px;
-      border-radius: 15px;
+    @keyframes glowBox {
+      from { box-shadow: 0 0 15px rgba(255,0,180,0.3); }
+      to { box-shadow: 0 0 35px rgba(255,0,180,0.6); }
+    }
+
+    .location-title {
+      font-size: 20px;
       font-weight: bold;
-      text-align: center;
+      color: #ff6fff;
+      text-shadow: 0 0 10px #ff00cc;
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+
+    .location-title span {
+      color: #ffffff;
+      font-size: 22px;
+      text-shadow: 0 0 15px #ff6fff;
     }
 
     form { text-align: left; margin-top: 10px; }
@@ -148,45 +196,118 @@
     }
 
     audio { display: none; }
+
+    /* 🎵 Botón de música en la parte superior */
+    #musicBtn {
+    position: fixed;
+    top: 20px;           /* ⬆ Lo movemos arriba */
+    right: 20px;         /* → Pegado a la esquina */
+
+    background: linear-gradient(135deg, #7a5bff, #c78bff);
+    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+
+    padding: 12px 16px;
+    border-radius: 40px;
+    font-size: 18px;
+
+    box-shadow: 0 0 15px rgba(160, 120, 255, 0.7),
+                0 0 35px rgba(200, 150, 255, 0.4);
+
+    cursor: pointer;
+    z-index: 9999;         /* Para que quede sobre todo */
+    border: none;
+    animation: float 3s ease-in-out infinite;
+    transition: 0.2s;
+    }
+
+    /* Hover */
+    #musicBtn:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #8e6bff, #d39aff);
+    }
+
+    .hour {
+    background: linear-gradient(90deg, #6a5cff, #b38dff);
+    padding: 8px 14px;
+    margin-top: 8px;
+    border-radius: 18px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 15px;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(150, 120, 255, 0.6);
+    animation: hourPulse 2s infinite ease-in-out;
+    }
+
+    /* Un pulso suave estilo glow */
+    @keyframes hourPulse {
+    0% { transform: scale(1); box-shadow: 0 0 12px rgba(150,120,255,0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 0 22px rgba(180,150,255,0.7); }
+    100% { transform: scale(1); box-shadow: 0 0 12px rgba(150,120,255,0.4); }
+    }
+
+
+
   </style>
 </head>
 <body>
 
+<!-- ✨ partículas dinámicas -->
+<script>
+  for (let i = 0; i < 25; i++) {
+    let p = document.createElement("div");
+    p.className = "particle";
+    p.style.left = Math.random() * 100 + "%";
+    p.style.top = (Math.random() * 100 + 100) + "vh";
+    p.style.animationDuration = (3 + Math.random() * 3) + "s";
+    document.body.appendChild(p);
+  }
+</script>
+
+<!-- SPOTLIGHT -->
+<script>
+  document.addEventListener("mousemove", e => {
+    document.body.style.setProperty("--mx", e.clientX + "px");
+    document.body.style.setProperty("--my", e.clientY + "px");
+  });
+</script>
+
 <div class="card">
 
   <img src="img/love.png" class="decor">
-  <h1>Mixie cumple 9 años 🎉</h1>
+
+  <h1>Hola soy tu amiga Mariana<br>y quiero que me acompañes<br>a celebrar mi cumple 🎉</h1>
+
   <img src="img/mixie.png" class="photo">
 
   <div class="date">📅 23 de diciembre</div>
+  <div class="hour">🕓 4:00 PM</div>
 
-  <!-- COUNTDOWN -->
+
   <div class="countdown" id="countdown"></div>
 
-  <!-- MAPA BONITO -->
-  <div class="map-card">
-    <iframe 
-      src="https://www.google.com/maps?q=7.071415279218875,-73.10482011733367&z=17&output=embed">
-    </iframe>
+  <div class="location-card">
+    <h2 class="location-title">
+      🎠 Te invito a divertirnos en <br>
+      <span>Dunni Playground</span>
+    </h2>
 
     <a class="map-btn" target="_blank"
-      href="https://www.google.com/maps?q=7.071415279218875,-73.10482011733367">
+      href="https://www.google.com/maps?q=7.071415279218875,-73.10482011733367"
+      style="text-decoration:none; background:linear-gradient(90deg,#ff2fa6,#ff6fff); padding:12px; border-radius:15px; font-weight:bold; color:white; display:block; margin-top:10px;">
       📍 Ver ubicación en Google Maps
     </a>
   </div>
 
-  <!-- FORM -->
   <form id="rsvpForm">
     <label>Nombre</label>
     <input type="text" name="name" required>
 
-    <label>¿Asistirá?</label>
-    <input type="text" name="asistencia" required>
-
-    <label>Mensaje para Mixie</label>
+    <label>Mensaje para Mariana</label>
     <textarea name="message"></textarea>
 
-    <button type="submit">Confirmar asistencia 💌</button>
+    <button type="submit">Enviar mensaje 💌</button>
   </form>
 
   <div class="footer">
@@ -200,16 +321,23 @@
   <source src="assets/Love.mp3" type="audio/mpeg">
 </audio>
 
+<!-- Botón flotante -->
+<button id="musicBtn">🎵 Música</button>
+
 <script>
   /* MÚSICA */
   const audio = document.getElementById("bgMusic");
-  audio.volume = 0.5;
+  const musicBtn = document.getElementById("musicBtn");
 
-  document.body.addEventListener("click", () => {
+  musicBtn.addEventListener("click", () => {
     if (audio.paused) {
-      audio.play().catch(()=>{});
+      audio.play();
+      musicBtn.textContent = "🎶 Sonando 🎶";
+    } else {
+      audio.pause();
+      musicBtn.textContent = "🎵 Música";
     }
-  }, { once: true });
+  });
 
   /* COUNTDOWN */
   const targetDate = new Date("2025-12-23T00:00:00").getTime();
@@ -235,7 +363,6 @@
 
     emailjs.send("TU_SERVICE_ID", "TU_TEMPLATE_ID", {
       name: this.name.value,
-      asistencia: this.asistencia.value,
       message: this.message.value,
       to_email: "juliangrosso7@gmail.com"
     }).then(
