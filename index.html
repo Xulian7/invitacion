@@ -198,35 +198,45 @@
 
     audio { display: none; }
 
-    /* 🎵 Botón de música en la parte superior */
-    #musicBtn {
-    position: fixed;
-    top: 20px;           /* ⬆ Lo movemos arriba */
-    right: 20px;         /* → Pegado a la esquina */
+    /* Contenedor para colocar love.png + botón juntos */
+    .top-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    }
 
+    /* 🎵 Botón de música al lado de love.png */
+    #musicBtn {
     background: linear-gradient(135deg, #7a5bff, #c78bff);
     color: #ffffff;
+
+    width: 45px;
+    height: 45px;
+
     border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
 
-    padding: 12px 16px;
-    border-radius: 40px;
-    font-size: 18px;
-
-    box-shadow: 0 0 15px rgba(160, 120, 255, 0.7),
-                0 0 35px rgba(200, 150, 255, 0.4);
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     cursor: pointer;
-    z-index: 9999;         /* Para que quede sobre todo */
-    border: none;
+    box-shadow: 0 0 12px rgba(160, 120, 255, 0.6),
+                0 0 25px rgba(200, 150, 255, 0.3);
     animation: float 3s ease-in-out infinite;
-    transition: 0.2s;
+    transition: transform 0.2s ease;
     }
 
     /* Hover */
     #musicBtn:hover {
-    transform: scale(1.1);
+    transform: scale(1.12);
     background: linear-gradient(135deg, #8e6bff, #d39aff);
     }
+
+
 
     .hour {
     background: linear-gradient(90deg, #6a5cff, #b38dff);
@@ -276,7 +286,11 @@
 
 <div class="card">
 
-  <img src="img/love.png" class="decor">
+  <div class="top-row">
+    <img src="img/love.png" class="decor">
+    <button id="musicBtn">🎵</button>
+  </div>
+
 
   <h1>Hola soy tu amiga Mariana<br>y quiero que me acompañes<br>a celebrar mi cumple 🎉</h1>
 
@@ -333,7 +347,7 @@
   musicBtn.addEventListener("click", () => {
     if (audio.paused) {
       audio.play();
-      musicBtn.textContent = "🎶 Sonando 🎶";
+      musicBtn.textContent = "🎶 Twice 🎶";
     } else {
       audio.pause();
       musicBtn.textContent = "🎵 Música";
@@ -357,12 +371,14 @@
   }, 1000);
 
   /* EMAILJS */
-  (function(){ emailjs.init("TU_PUBLIC_KEY"); })();
+  (function(){
+    emailjs.init("5epldFcGMatwInlob"); // PUBLIC KEY
+  })();
 
   document.getElementById("rsvpForm").addEventListener("submit", function(e){
     e.preventDefault();
 
-    emailjs.send("TU_SERVICE_ID", "TU_TEMPLATE_ID", {
+    emailjs.send("service_foukrpr", "template_q9c5r0j", {
       name: this.name.value,
       message: this.message.value,
       to_email: "juliangrosso7@gmail.com"
@@ -377,6 +393,7 @@
     );
   });
 </script>
+
 
 </body>
 </html>
